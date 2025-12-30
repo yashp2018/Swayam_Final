@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swayam Admin - Spiritual Analytics Dashboard</title>
+    <link rel="stylesheet" href="../public/css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #927397;
+            --secondary: #D6809C;
+            --accent: #E7CBAE;
+            --background: #FAF5EF;
+            --white: #ffffff;
+            --dark: #2d3748;
+            --success: #48bb78;
+            --warning: #ed8936;
+            --error: #f56565;
+            --info: #4299e1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--dark);
+        }
+
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo-subtitle {
+            opacity: 0.8;
+            font-size: 0.875rem;
+        }
+
+        .nav-menu {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            margin: 0.25rem 1rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-link i {
+            width: 20px;
+            margin-right: 1rem;
+        }
+
+        .badge {
+            background: var(--error);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-left: auto;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 1.5rem 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: #666;
+            font-size: 0.875rem;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 8px;
+        }
+
+        .stat-change.positive {
+            background: rgba(72, 187, 120, 0.1);
+            color: var(--success);
+        }
+
+        .stat-change.negative {
+            background: rgba(245, 101, 101, 0.1);
+            color: var(--error);
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        /* Charts */
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        /* Activity List */
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-time {
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        /* Spiritual Metrics */
+        .spiritual-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .metric-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">🕉️ स्वयम्</div>
+                <div class="logo-subtitle">Spiritual Analytics</div>
+            </div>
+            
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="#" class="nav-link active" data-section="dashboard">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link" data-section="spiritual-analytics">
+                        <i class="fas fa-om"></i>
+                        <span>Spiritual Analytics</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link" data-section="content">
+                        <i class="fas fa-scroll"></i>
+                        <span>Content Management</span>
+                        <span class="badge">12</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link" data-section="users">
+                        <i class="fas fa-users"></i>
+                        <span>User Journey</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link" data-section="meditation">
+                        <i class="fas fa-leaf"></i>
+                        <span>Meditation Insights</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link" data-section="retreats">
+                        <i class="fas fa-mountain"></i>
+                        <span>Retreat Analytics</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link" data-section="wisdom">
+                        <i class="fas fa-book-open"></i>
+                        <span>Wisdom Metrics</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <div id="dashboard" class="section active">
+                <div class="header fade-in">
+                    <div>
+                        <h1 class="page-title">Spiritual Dashboard</h1>
+                        <p class="page-subtitle">Monitor the collective spiritual journey</p>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid fade-in">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="stat-number" id="totalUsers">1,247</div>
+                        <div class="stat-label">Spiritual Seekers</div>
+                        <div class="stat-change positive">+23 this week</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                        </div>
+                        <div class="stat-number" id="meditationMinutes">45,892</div>
+                        <div class="stat-label">Meditation Minutes</div>
+                        <div class="stat-change positive">+1,234 today</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                                <i class="fas fa-scroll"></i>
+                            </div>
+                        </div>
+                        <div class="stat-number" id="wisdomShared">342</div>
+                        <div class="stat-label">Wisdom Articles</div>
+                        <div class="stat-change positive">+8 this month</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                                <i class="fas fa-mountain"></i>
+                            </div>
+                        </div>
+                        <div class="stat-number" id="activeRetreats">18</div>
+                        <div class="stat-label">Active Retreats</div>
+                        <div class="stat-change positive">3 upcoming</div>
+                    </div>
+                </div>
+
+                <!-- Dashboard Grid -->
+                <div class="dashboard-grid fade-in">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Spiritual Growth Trends</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="growthChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Recent Activities</h2>
+                        </div>
+                        <div class="card-body" style="padding: 0;">
+                            <div class="activity-item">
+                                <div class="activity-icon" style="background: rgba(146, 115, 151, 0.1); color: var(--primary);">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">New seeker joined</div>
+                                    <div class="activity-time">2 minutes ago</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon" style="background: rgba(72, 187, 120, 0.1); color: var(--success);">
+                                    <i class="fas fa-leaf"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Meditation session completed</div>
+                                    <div class="activity-time">5 minutes ago</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon" style="background: rgba(237, 137, 54, 0.1); color: var(--warning);">
+                                    <i class="fas fa-scroll"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">New wisdom article published</div>
+                                    <div class="activity-time">1 hour ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Spiritual Metrics -->
+                <div class="spiritual-metrics fade-in">
+                    <div class="metric-card">
+                        <div class="metric-icon">🧘‍♀️</div>
+                        <div class="metric-value">89%</div>
+                        <div class="metric-label">Mindfulness Score</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">🕉️</div>
+                        <div class="metric-value">76%</div>
+                        <div class="metric-label">Spiritual Alignment</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">💫</div>
+                        <div class="metric-value">92%</div>
+                        <div class="metric-label">Inner Peace Index</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">🌸</div>
+                        <div class="metric-value">84%</div>
+                        <div class="metric-label">Compassion Level</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spiritual Analytics Section -->
+            <div id="spiritual-analytics" class="section">
+                <div class="header">
+                    <div>
+                        <h1 class="page-title">Spiritual Analytics</h1>
+                        <p class="page-subtitle">Deep insights into spiritual growth patterns</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Chakra Balance Distribution</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="chakraChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Meditation Patterns</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="meditationChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other sections will be added here -->
+            <div id="content" class="section">
+                <div class="header">
+                    <h1 class="page-title">Content Management</h1>
+                    <p class="page-subtitle">Manage spiritual content and wisdom</p>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <p>Content management interface coming soon...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="users" class="section">
+                <div class="header">
+                    <h1 class="page-title">User Journey</h1>
+                    <p class="page-subtitle">Track spiritual progress of seekers</p>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <p>User journey analytics coming soon...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="meditation" class="section">
+                <div class="header">
+                    <h1 class="page-title">Meditation Insights</h1>
+                    <p class="page-subtitle">Analyze meditation practices and outcomes</p>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <p>Meditation insights coming soon...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="retreats" class="section">
+                <div class="header">
+                    <h1 class="page-title">Retreat Analytics</h1>
+                    <p class="page-subtitle">Monitor retreat effectiveness and participation</p>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <p>Retreat analytics coming soon...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="wisdom" class="section">
+                <div class="header">
+                    <h1 class="page-title">Wisdom Metrics</h1>
+                    <p class="page-subtitle">Measure the impact of shared wisdom</p>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <p>Wisdom metrics coming soon...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remove active class from all links and sections
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                
+                // Add active class to clicked link
+                link.classList.add('active');
+                
+                // Show corresponding section
+                const sectionId = link.getAttribute('data-section');
+                document.getElementById(sectionId).classList.add('active');
+            });
+        });
+
+        // Initialize Charts
+        function initCharts() {
+            // Growth Chart
+            const growthCtx = document.getElementById('growthChart').getContext('2d');
+            new Chart(growthCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Spiritual Growth',
+                        data: [65, 72, 78, 85, 89, 94],
+                        borderColor: '#927397',
+                        backgroundColor: 'rgba(146, 115, 151, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }, {
+                        label: 'Meditation Minutes',
+                        data: [28, 35, 42, 48, 55, 62],
+                        borderColor: '#D6809C',
+                        backgroundColor: 'rgba(214, 128, 156, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Chakra Chart
+            const chakraCtx = document.getElementById('chakraChart');
+            if (chakraCtx) {
+                new Chart(chakraCtx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Root', 'Sacral', 'Solar Plexus', 'Heart', 'Throat', 'Third Eye', 'Crown'],
+                        datasets: [{
+                            label: 'Chakra Balance',
+                            data: [85, 78, 92, 88, 76, 82, 90],
+                            borderColor: '#927397',
+                            backgroundColor: 'rgba(146, 115, 151, 0.2)',
+                            pointBackgroundColor: '#927397',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: '#927397'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            r: {
+                                beginAtZero: true,
+                                max: 100
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Meditation Chart
+            const meditationCtx = document.getElementById('meditationChart');
+            if (meditationCtx) {
+                new Chart(meditationCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Morning', 'Afternoon', 'Evening', 'Night'],
+                        datasets: [{
+                            data: [35, 20, 30, 15],
+                            backgroundColor: [
+                                '#927397',
+                                '#D6809C',
+                                '#E7CBAE',
+                                '#FAF5EF'
+                            ],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initCharts();
+            
+            // Animate numbers
+            animateNumbers();
+        });
+
+        // Animate numbers
+        function animateNumbers() {
+            const numbers = document.querySelectorAll('.stat-number, .metric-value');
+            numbers.forEach(num => {
+                const target = parseInt(num.textContent.replace(/,/g, ''));
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    num.textContent = Math.floor(current).toLocaleString();
+                }, 30);
+            });
+        }
+
+        // Mobile sidebar toggle
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+    </script>
+</body>
+</html>

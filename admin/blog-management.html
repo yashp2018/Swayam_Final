@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Management - Swayam Admin</title>
+    <link rel="stylesheet" href="../public/css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--color-lavender), var(--color-rose));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .blog-content {
+            padding: 1.5rem;
+        }
+
+        .blog-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--color-dark);
+        }
+
+        .blog-excerpt {
+            color: #666;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: #999;
+            margin-bottom: 1rem;
+        }
+
+        .blog-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+            border-radius: 6px;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--color-warning);
+        }
+
+        .status-approved {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--color-success);
+        }
+
+        .status-rejected {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--color-error);
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background: var(--color-lavender);
+            color: white;
+            border-color: var(--color-lavender);
+        }
+
+        .search-box {
+            flex: 1;
+            max-width: 300px;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        .language-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .lang-tab {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lang-tab.active {
+            background: var(--color-lavender);
+            color: white;
+            border-color: var(--color-lavender);
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">🕉️ स्वयम्</div>
+                <div class="logo-subtitle">Blog Management</div>
+            </div>
+            
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <i class="fas fa-scroll"></i>
+                        <span>Blog Management</span>
+                        <span class="badge">12</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="masters.html" class="nav-link">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Masters & Experts</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="retreats.html" class="nav-link">
+                        <i class="fas fa-mountain"></i>
+                        <span>Retreat Management</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="header">
+                <div>
+                    <h1 class="page-title">Blog Management</h1>
+                    <p class="page-subtitle">Manage spiritual content and wisdom sharing</p>
+                </div>
+            </div>
+
+            <!-- Language Tabs -->
+            <div class="language-tabs">
+                <button class="lang-tab active" data-lang="all">All Languages</button>
+                <button class="lang-tab" data-lang="hi">हिंदी</button>
+                <button class="lang-tab" data-lang="en">English</button>
+                <button class="lang-tab" data-lang="mr">मराठी</button>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters">
+                <button class="filter-btn active" data-status="all">All Posts</button>
+                <button class="filter-btn" data-status="pending">Pending Approval</button>
+                <button class="filter-btn" data-status="approved">Approved</button>
+                <button class="filter-btn" data-status="rejected">Rejected</button>
+                <input type="text" class="search-box" placeholder="Search blogs...">
+            </div>
+
+            <!-- Blog Grid -->
+            <div class="blog-grid" id="blogGrid">
+                <!-- Pending Spiritual Journey Blog -->
+                <div class="blog-card" data-status="pending" data-lang="hi">
+                    <div class="blog-image">
+                        <i class="fas fa-om"></i>
+                    </div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">शेगांव मंदिर की आध्यात्मिक यात्रा</h3>
+                        <p class="blog-excerpt">गजानन महाराज के दर्शन और शेगांव की पवित्र भूमि पर मेरे अनुभव...</p>
+                        <div class="blog-meta">
+                            <span>राज पाटिल</span>
+                            <span>2 hours ago</span>
+                            <span class="status-badge status-pending">Pending</span>
+                        </div>
+                        <div class="blog-actions">
+                            <button class="btn btn-success btn-sm" onclick="approveBlog(1)">
+                                <i class="fas fa-check"></i> Approve
+                            </button>
+                            <button class="btn btn-error btn-sm" onclick="rejectBlog(1)">
+                                <i class="fas fa-times"></i> Reject
+                            </button>
+                            <button class="btn btn-secondary btn-sm" onclick="viewBlog(1)">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Approved Meditation Blog -->
+                <div class="blog-card" data-status="approved" data-lang="en">
+                    <div class="blog-image">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">Daily Meditation Practice for Inner Peace</h3>
+                        <p class="blog-excerpt">Simple meditation techniques that transformed my daily routine and brought lasting peace...</p>
+                        <div class="blog-meta">
+                            <span>Priya Sharma</span>
+                            <span>1 day ago</span>
+                            <span class="status-badge status-approved">Approved</span>
+                        </div>
+                        <div class="blog-actions">
+                            <button class="btn btn-secondary btn-sm" onclick="viewBlog(2)">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            <button class="btn btn-warning btn-sm" onclick="editBlog(2)">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pending Yoga Blog -->
+                <div class="blog-card" data-status="pending" data-lang="mr">
+                    <div class="blog-image">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">योगाचे आध्यात्मिक फायदे</h3>
+                        <p class="blog-excerpt">योगाच्या नियमित सरावाने मिळणारे मानसिक आणि आध्यात्मिक लाभ...</p>
+                        <div class="blog-meta">
+                            <span>अनिल देशमुख</span>
+                            <span>3 hours ago</span>
+                            <span class="status-badge status-pending">Pending</span>
+                        </div>
+                        <div class="blog-actions">
+                            <button class="btn btn-success btn-sm" onclick="approveBlog(3)">
+                                <i class="fas fa-check"></i> Approve
+                            </button>
+                            <button class="btn btn-error btn-sm" onclick="rejectBlog(3)">
+                                <i class="fas fa-times"></i> Reject
+                            </button>
+                            <button class="btn btn-secondary btn-sm" onclick="viewBlog(3)">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Approved Personal Story -->
+                <div class="blog-card" data-status="approved" data-lang="hi">
+                    <div class="blog-image">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">मेरी आध्यात्मिक खोज की कहानी</h3>
+                        <p class="blog-excerpt">कैसे मैंने अपने जीवन में शांति और संतुष्टि पाई - एक व्यक्तिगत अनुभव...</p>
+                        <div class="blog-meta">
+                            <span>सुनीता गुप्ता</span>
+                            <span>2 days ago</span>
+                            <span class="status-badge status-approved">Approved</span>
+                        </div>
+                        <div class="blog-actions">
+                            <button class="btn btn-secondary btn-sm" onclick="viewBlog(4)">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            <button class="btn btn-warning btn-sm" onclick="editBlog(4)">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pending Art & Culture Blog -->
+                <div class="blog-card" data-status="pending" data-lang="en">
+                    <div class="blog-image">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">Classical Music as Spiritual Practice</h3>
+                        <p class="blog-excerpt">How Indian classical music became my path to spiritual awakening and self-discovery...</p>
+                        <div class="blog-meta">
+                            <span>Ravi Kumar</span>
+                            <span>5 hours ago</span>
+                            <span class="status-badge status-pending">Pending</span>
+                        </div>
+                        <div class="blog-actions">
+                            <button class="btn btn-success btn-sm" onclick="approveBlog(5)">
+                                <i class="fas fa-check"></i> Approve
+                            </button>
+                            <button class="btn btn-error btn-sm" onclick="rejectBlog(5)">
+                                <i class="fas fa-times"></i> Reject
+                            </button>
+                            <button class="btn btn-secondary btn-sm" onclick="viewBlog(5)">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rejected Blog -->
+                <div class="blog-card" data-status="rejected" data-lang="hi">
+                    <div class="blog-image">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">गलत जानकारी वाला लेख</h3>
+                        <p class="blog-excerpt">यह लेख गलत तथ्यों के कारण अस्वीकृत किया गया है...</p>
+                        <div class="blog-meta">
+                            <span>अज्ञात लेखक</span>
+                            <span>1 week ago</span>
+                            <span class="status-badge status-rejected">Rejected</span>
+                        </div>
+                        <div class="blog-actions">
+                            <button class="btn btn-secondary btn-sm" onclick="viewBlog(6)">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            <button class="btn btn-error btn-sm" onclick="deleteBlog(6)">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const status = btn.getAttribute('data-status');
+                filterBlogs(status);
+            });
+        });
+
+        // Language filter
+        document.querySelectorAll('.lang-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.lang-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                const lang = tab.getAttribute('data-lang');
+                filterByLanguage(lang);
+            });
+        });
+
+        function filterBlogs(status) {
+            const cards = document.querySelectorAll('.blog-card');
+            cards.forEach(card => {
+                if (status === 'all' || card.getAttribute('data-status') === status) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function filterByLanguage(lang) {
+            const cards = document.querySelectorAll('.blog-card');
+            cards.forEach(card => {
+                if (lang === 'all' || card.getAttribute('data-lang') === lang) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Blog actions
+        function approveBlog(id) {
+            if (confirm('Are you sure you want to approve this blog?')) {
+                alert(`Blog ${id} approved successfully!`);
+                // Update UI
+                const card = document.querySelector(`[onclick="approveBlog(${id})"]`).closest('.blog-card');
+                const badge = card.querySelector('.status-badge');
+                badge.textContent = 'Approved';
+                badge.className = 'status-badge status-approved';
+                card.setAttribute('data-status', 'approved');
+                
+                // Update actions
+                const actions = card.querySelector('.blog-actions');
+                actions.innerHTML = `
+                    <button class="btn btn-secondary btn-sm" onclick="viewBlog(${id})">
+                        <i class="fas fa-eye"></i> View
+                    </button>
+                    <button class="btn btn-warning btn-sm" onclick="editBlog(${id})">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                `;
+            }
+        }
+
+        function rejectBlog(id) {
+            const reason = prompt('Please provide a reason for rejection:');
+            if (reason) {
+                alert(`Blog ${id} rejected. Reason: ${reason}`);
+                // Update UI
+                const card = document.querySelector(`[onclick="rejectBlog(${id})"]`).closest('.blog-card');
+                const badge = card.querySelector('.status-badge');
+                badge.textContent = 'Rejected';
+                badge.className = 'status-badge status-rejected';
+                card.setAttribute('data-status', 'rejected');
+            }
+        }
+
+        function viewBlog(id) {
+            alert(`Opening blog ${id} for viewing...`);
+            // Implement blog viewing functionality
+        }
+
+        function editBlog(id) {
+            alert(`Opening blog ${id} for editing...`);
+            // Implement blog editing functionality
+        }
+
+        function deleteBlog(id) {
+            if (confirm('Are you sure you want to permanently delete this blog?')) {
+                alert(`Blog ${id} deleted successfully!`);
+                // Remove from UI
+                const card = document.querySelector(`[onclick="deleteBlog(${id})"]`).closest('.blog-card');
+                card.remove();
+            }
+        }
+
+        // Search functionality
+        document.querySelector('.search-box').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.blog-card');
+            
+            cards.forEach(card => {
+                const title = card.querySelector('.blog-title').textContent.toLowerCase();
+                const excerpt = card.querySelector('.blog-excerpt').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || excerpt.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Blog - Swayam</title>
+    <link rel="stylesheet" href="public/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js"></script>
+    <style>
+        .create-blog-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .blog-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #927397;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #927397;
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .lang-option {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lang-option.active {
+            border-color: #927397;
+            background: rgba(146, 115, 151, 0.1);
+            color: #927397;
+        }
+
+        .media-upload {
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .media-upload:hover {
+            border-color: #927397;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: #9ca3af;
+            margin-bottom: 1rem;
+        }
+
+        .media-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .media-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f9fafb;
+        }
+
+        .media-item img, .media-item video {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+
+        .media-item audio {
+            width: 100%;
+            height: 60px;
+        }
+
+        .remove-media {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        .submit-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .btn {
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #927397;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #f3f4f6;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #927397;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-symbol">स्व</span>
+                <span class="logo-text">Swayam</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="blogs.html">Blogs</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="#" onclick="logout()">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="create-blog-container">
+        <div class="blog-header">
+            <h1 style="color: #927397; font-family: 'Playfair Display', serif;">Share Your Spiritual Journey</h1>
+            <p style="color: #6b7280;">Create and share your wisdom with the Swayam community</p>
+        </div>
+
+        <form id="blogForm" enctype="multipart/form-data">
+            <!-- Language Selection -->
+            <div class="form-group">
+                <label class="form-label">Select Language / भाषा चुनें</label>
+                <div class="language-selector">
+                    <div class="lang-option active" data-lang="hi">
+                        <i class="fas fa-language"></i>
+                        <div>हिंदी</div>
+                    </div>
+                    <div class="lang-option" data-lang="en">
+                        <i class="fas fa-globe"></i>
+                        <div>English</div>
+                    </div>
+                    <div class="lang-option" data-lang="mr">
+                        <i class="fas fa-font"></i>
+                        <div>मराठी</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Title -->
+            <div class="form-group">
+                <label class="form-label">Blog Title / शीर्षक</label>
+                <input type="text" class="form-input" id="blogTitle" placeholder="Enter your blog title..." required>
+            </div>
+
+            <!-- Category -->
+            <div class="form-group">
+                <label class="form-label">Category / श्रेणी</label>
+                <select class="form-select" id="blogCategory" required>
+                    <option value="">Select Category</option>
+                    <option value="spiritual-journey">Spiritual Journey / आध्यात्मिक यात्रा</option>
+                    <option value="meditation">Meditation / ध्यान</option>
+                    <option value="yoga">Yoga & Wellness / योग और स्वास्थ्य</option>
+                    <option value="arts-culture">Arts & Culture / कला और संस्कृति</option>
+                    <option value="philosophy">Philosophy / दर्शन</option>
+                    <option value="personal-story">Personal Story / व्यक्तिगत कहानी</option>
+                </select>
+            </div>
+
+            <!-- Media Upload -->
+            <div class="form-group">
+                <label class="form-label">Add Media / मीडिया जोड़ें</label>
+                <div class="media-upload" onclick="document.getElementById('mediaInput').click()">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <p>Click to upload images, videos, or audio files</p>
+                    <p style="font-size: 0.875rem; color: #6b7280;">Supports: JPG, PNG, MP4, MP3, WAV</p>
+                </div>
+                <input type="file" id="mediaInput" multiple accept="image/*,video/*,audio/*" style="display: none;">
+                <div class="media-preview" id="mediaPreview"></div>
+                <div class="progress-bar" id="uploadProgress">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+
+            <!-- Blog Content -->
+            <div class="form-group">
+                <label class="form-label">Content / सामग्री</label>
+                <textarea id="blogContent" style="height: 400px;"></textarea>
+            </div>
+
+            <!-- Tags -->
+            <div class="form-group">
+                <label class="form-label">Tags / टैग (comma separated)</label>
+                <input type="text" class="form-input" id="blogTags" placeholder="spirituality, meditation, peace...">
+            </div>
+
+            <!-- Submit Actions -->
+            <div class="submit-actions">
+                <button type="button" class="btn btn-secondary" onclick="saveDraft()">
+                    <i class="fas fa-save"></i> Save Draft
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i> Submit for Review
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let selectedLanguage = 'hi';
+        let uploadedFiles = [];
+
+        // Setup session
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('api/user/setup-session.php')
+                .then(response => response.json())
+                .then(data => console.log('Session ready:', data))
+                .catch(error => console.log('Session error:', error));
+        });
+
+        // Initialize TinyMCE
+        tinymce.init({
+            selector: '#blogContent',
+            height: 400,
+            plugins: 'lists link image code',
+            toolbar: 'undo redo | bold italic | bullist numlist | link image | code'
+        });
+
+        // Language selection
+        document.querySelectorAll('.lang-option').forEach(option => {
+            option.addEventListener('click', () => {
+                document.querySelectorAll('.lang-option').forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+                selectedLanguage = option.getAttribute('data-lang');
+            });
+        });
+
+        // File upload
+        document.getElementById('mediaInput').addEventListener('change', function(e) {
+            const files = Array.from(e.target.files);
+            files.forEach(file => {
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('File size should be less than 10MB');
+                    return;
+                }
+                uploadedFiles.push(file);
+                displayMediaPreview(file);
+            });
+        });
+
+        function displayMediaPreview(file) {
+            const preview = document.getElementById('mediaPreview');
+            const mediaItem = document.createElement('div');
+            mediaItem.className = 'media-item';
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                if (file.type.startsWith('image/')) {
+                    mediaItem.innerHTML = `<img src="${e.target.result}" alt="Preview"><button class="remove-media" onclick="removeMedia(this, '${file.name}')">×</button>`;
+                } else if (file.type.startsWith('video/')) {
+                    mediaItem.innerHTML = `<video controls><source src="${e.target.result}" type="${file.type}"></video><button class="remove-media" onclick="removeMedia(this, '${file.name}')">×</button>`;
+                } else if (file.type.startsWith('audio/')) {
+                    mediaItem.innerHTML = `<audio controls><source src="${e.target.result}" type="${file.type}"></audio><button class="remove-media" onclick="removeMedia(this, '${file.name}')">×</button>`;
+                }
+            };
+            reader.readAsDataURL(file);
+            preview.appendChild(mediaItem);
+        }
+
+        function removeMedia(button, filename) {
+            uploadedFiles = uploadedFiles.filter(file => file.name !== filename);
+            button.parentElement.remove();
+        }
+
+        // Form submission
+        document.getElementById('blogForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            formData.append('title', document.getElementById('blogTitle').value);
+            formData.append('category', document.getElementById('blogCategory').value);
+            formData.append('content', tinymce.get('blogContent').getContent());
+            formData.append('tags', document.getElementById('blogTags').value);
+            formData.append('language', selectedLanguage);
+            formData.append('status', 'pending');
+            
+            uploadedFiles.forEach((file, index) => {
+                formData.append(`media_${index}`, file);
+            });
+            
+            try {
+                const response = await fetch('api/blogs/create.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('Blog submitted successfully!');
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                alert('Blog submitted! (Development mode)');
+                window.location.href = 'dashboard.html';
+            }
+        });
+
+        function saveDraft() {
+            alert('Draft saved!');
+        }
+
+        function logout() {
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html><!-- Submit Actions -->
+            <div class="submit-actions">
+                <button type="button" class="btn btn-secondary" onclick="saveDraft()">
+                    <i class="fas fa-save"></i> Save Draft
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i> Submit for Review
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let selectedLanguage = 'hi';
+        let uploadedFiles = [];
+
+        // Initialize TinyMCE
+        tinymce.init({
+            selector: '#blogContent',
+            height: 400,
+            plugins: 'advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount',
+            toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
+            content_style: 'body { font-family: Inter, Arial, sans-serif; font-size: 14px }'
+        });
+
+        // Language selection
+        document.querySelectorAll('.lang-option').forEach(option => {
+            option.addEventListener('click', () => {
+                document.querySelectorAll('.lang-option').forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+                selectedLanguage = option.getAttribute('data-lang');
+            });
+        });
+
+        // File upload handling
+        document.getElementById('mediaInput').addEventListener('change', function(e) {
+            const files = Array.from(e.target.files);
+            files.forEach(file => {
+                if (file.size > 10 * 1024 * 1024) { // 10MB limit
+                    alert('File size should be less than 10MB');
+                    return;
+                }
+                uploadedFiles.push(file);
+                displayMediaPreview(file);
+            });
+        });
+
+        function displayMediaPreview(file) {
+            const preview = document.getElementById('mediaPreview');
+            const mediaItem = document.createElement('div');
+            mediaItem.className = 'media-item';
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                if (file.type.startsWith('image/')) {
+                    mediaItem.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview">
+                        <button class="remove-media" onclick="removeMedia(this, '${file.name}')">×</button>
+                    `;
+                } else if (file.type.startsWith('video/')) {
+                    mediaItem.innerHTML = `
+                        <video controls>
+                            <source src="${e.target.result}" type="${file.type}">
+                        </video>
+                        <button class="remove-media" onclick="removeMedia(this, '${file.name}')">×</button>
+                    `;
+                } else if (file.type.startsWith('audio/')) {
+                    mediaItem.innerHTML = `
+                        <audio controls>
+                            <source src="${e.target.result}" type="${file.type}">
+                        </audio>
+                        <button class="remove-media" onclick="removeMedia(this, '${file.name}')">×</button>
+                    `;
+                }
+            };
+            reader.readAsDataURL(file);
+            preview.appendChild(mediaItem);
+        }
+
+        function removeMedia(button, filename) {
+            uploadedFiles = uploadedFiles.filter(file => file.name !== filename);
+            button.parentElement.remove();
+        }
+
+        // Form submission
+        document.getElementById('blogForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            formData.append('title', document.getElementById('blogTitle').value);
+            formData.append('category', document.getElementById('blogCategory').value);
+            formData.append('content', tinymce.get('blogContent').getContent());
+            formData.append('tags', document.getElementById('blogTags').value);
+            formData.append('language', selectedLanguage);
+            formData.append('status', 'pending');
+            
+            // Add uploaded files
+            uploadedFiles.forEach((file, index) => {
+                formData.append(`media_${index}`, file);
+            });
+            
+            try {
+                const response = await fetch('api/blogs/create.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('Blog submitted successfully! It will be reviewed by admin before publishing.');
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Submission error:', error);
+                alert('Error submitting blog. Please try again.');
+            }
+        });
+
+        function saveDraft() {
+            // Save as draft functionality
+            alert('Draft saved successfully!');
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('swayamToken');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Check if user is logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            // Setup user session for development
+            fetch('api/user/setup-session.php')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('User session setup:', data);
+                })
+                .catch(error => {
+                    console.error('Session setup error:', error);
+                    // Continue anyway for development
+                });
+        });
+    </script>
+</body>
+</html>

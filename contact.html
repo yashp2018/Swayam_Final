@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Swayam - Journey Within | Spiritual Self-Growth Platform</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Non-commercial platform for self-discovery, meditation, yoga, and spiritual growth. Join retreats at Yana Farm, Nashik.">
+    <meta name="keywords" content="spiritual growth, meditation, yoga, retreats, self-discovery, Swayam, Yana Farm, Nashik, India">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Swayam - Journey Within">
+    <meta property="og:description" content="A platform for spiritual self-growth and meaningful living">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#927397">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Swayam">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+   <!-- Navigation -->
+    <nav id="navigation" class="nav-transparent">
+        <div class="container">
+            <div class="nav-content">
+                <!-- Logo -->
+                <a href="index.html" class="logo-link">
+                    <div class="logo-icon">
+                        <span class="logo-symbol">स्व</span>
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-title">Swayam</span>
+                        <span class="logo-subtitle">Journey Within</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link active">Home</a>
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="retreats.html" class="nav-link">Retreats</a>
+                    <a href="gallery.html" class="nav-link">Gallery</a>
+                    <a href="stories.html" class="nav-link">Stories</a>
+                    <a href="blogs.html" class="nav-link">Blogs</a>
+                    <a href="arts.html" class="nav-link">Arts</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                    <a href="admin/login.html" class="nav-link" style="color: var(--color-rose);">Admin</a>
+                    <div class="lang-dropdown">
+                        <button class="lang-btn" id="langBtn">EN ▼</button>
+                        <ul class="lang-options" id="langOptions">
+                            <li data-lang="EN" class="active">English</li>
+                            <li data-lang="HI">हिंदी</li>
+                            <li data-lang="MR">मराठी</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+                    <span class="hamburger"></span>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div class="mobile-menu" id="mobileMenu">
+                <a href="index.html" class="mobile-link active">Home</a>
+                <a href="about.html" class="mobile-link">About</a>
+                <a href="retreats.html" class="mobile-link">Retreats</a>
+                <a href="gallery.html" class="mobile-link">Gallery</a>
+                <a href="stories.html" class="mobile-link">Stories</a>
+                <a href="blogs.html" class="mobile-link">Blogs</a>
+                <a href="arts.html" class="mobile-link">Arts</a>
+                <a href="contact.html" class="mobile-link">Contact</a>
+                <a href="admin/login.html" class="mobile-link" style="color: var(--color-rose);">Admin</a>
+                <div class="lang-dropdown">
+                    <button class="lang-btn-mobile" id="langBtnMobile">Language: EN ▼</button>
+                    <ul class="lang-options" id="langOptionsMobile">
+                        <li data-lang="EN" class="active">English</li>
+                        <li data-lang="HI">हिंदी</li>
+                        <li data-lang="MR">मराठी</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+<!-- Hero Section -->
+<section class="section bg-cream" style="margin-top: 80px; padding-top: 4rem;">
+    <div class="container">
+        <div class="text-center max-w-4xl mx-auto reveal">
+            <p class="accent-text">GET IN TOUCH</p>
+            <h1 class="heading-xl">
+                Contact <span class="text-primary">Us</span>
+            </h1>
+            <div class="sacred-divider"></div>
+            <p class="body-lg">
+                Have questions? Want to join our community? We'd love to hear from you. Connect with us for retreats, collaborations, or spiritual guidance.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Form & Info -->
+<section class="section bg-white">
+    <div class="container">
+        <div class="contact-grid">
+            <!-- Contact Form -->
+            <div class="glass-card reveal">
+                <h2 class="heading-lg">Send Message</h2>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" placeholder="Enter your name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number (Optional)</label>
+                        <input type="tel" id="phone" placeholder="Enter your phone">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <select id="subject" required>
+                            <option value="">Select a topic</option>
+                            <option value="retreat">Retreat Inquiry</option>
+                            <option value="partnership">Partnership/Collaboration</option>
+                            <option value="guidance">Spiritual Guidance</option>
+                            <option value="volunteer">Volunteer Opportunity</option>
+                            <option value="general">General Inquiry</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" rows="5" placeholder="Tell us how we can help..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
+                        <span>Send Message</span>
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="contact-info reveal" style="animation-delay: 0.2s;">
+                <div class="glass-card">
+                    <h2 class="heading-lg">Contact Information</h2>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="heading-sm">Address</h3>
+                            <p class="body-base text-grey">Yana Farm, Dindori<br>Nashik, Maharashtra, India<br>422202</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="heading-sm">Email</h3>
+                            <a href="mailto:hello@swayam.org" class="body-base" style="color: var(--color-lavender);">hello@swayam.org</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="heading-sm">Phone</h3>
+                            <a href="tel:+919876543210" class="body-base" style="color: var(--color-lavender);">+91 98765 43210</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="heading-sm">Office Hours</h3>
+                            <p class="body-base text-grey">Monday - Saturday: 9 AM - 6 PM<br>Sunday: 10 AM - 4 PM</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="glass-card mt-4">
+                    <h3 class="heading-sm">Quick Links</h3>
+                    <ul class="quick-links">
+                        <li><a href="retreats.html">Retreat Booking</a></li>
+                        <li><a href="about.html">About Swayam</a></li>
+                        <li><a href="#">Volunteer Application</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map Section -->
+<section class="section bg-cream">
+    <div class="container">
+        <div class="text-center max-w-4xl mx-auto reveal">
+            <p class="accent-text">FIND US</p>
+            <h2 class="heading-xl">Visit Yana Farm</h2>
+            <div class="sacred-divider"></div>
+        </div>
+
+        <div class="map-container reveal" style="margin-top: 3rem;">
+            <div class="glass-card" style="padding: 2rem; text-align: center;">
+                <div style="width: 100%; height: 300px; background: linear-gradient(135deg, #927397, #b68cb8); border-radius: 1rem; display: flex; align-items: center; justify-content: center; color: white; margin-bottom: 2rem;">
+                    <div>
+                        <svg width="64" height="64" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                        <h3 class="heading-lg mt-4">Yana Farm Location</h3>
+                    </div>
+                </div>
+                <p class="body-lg">
+                    Located in the peaceful countryside of Nashik, Yana Farm is easily accessible from Mumbai (4 hours) and Pune (3 hours).
+                </p>
+                <p class="body-base mt-2 text-grey">
+                    For exact directions and travel instructions, please contact us after booking your retreat.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- About -->
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <div class="logo-icon-small">
+                            <span class="logo-symbol">स्व</span>
+                        </div>
+                        <h3 class="footer-title">Swayam</h3>
+                    </div>
+                    <p class="footer-text">
+                        A non-commercial platform for spiritual self-growth, meditation, yoga, and meaningful living.
+                    </p>
+                    <p class="footer-text-sm italic">
+                        साधं, सोपं, सरळ जीवन जगण्याची कला
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="retreats.html">Retreats</a></li>
+                        <li><a href="stories.html">Stories</a></li>
+                        <li><a href="blogs.html">Blogs</a></li>
+                        <li><a href="arts.html">Arts</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">Contact Us</h4>
+                    <ul class="footer-contact">
+                        <li>
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                            <span>Yana Farm, Dindori<br>Nashik, Maharashtra</span>
+                        </li>
+                        <li>
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                            <a href="mailto:hello@swayam.org">hello@swayam.org</a>
+                        </li>
+                        <li>
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                            </svg>
+                            <a href="tel:+919876543210">+91 98765 43210</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">Stay Connected</h4>
+                    <p class="footer-text">Subscribe for spiritual insights and updates.</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit" class="btn-newsletter">Subscribe</button>
+                    </form>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                        <a href="#" aria-label="Instagram"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                        <a href="#" aria-label="YouTube"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> Swayam. All rights reserved. | Non-commercial spiritual platform.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PWA Install Prompt -->
+    <div id="installPrompt" class="install-prompt hidden">
+        <button class="btn-install">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+            </svg>
+            <span>Install Swayam App</span>
+        </button>
+    </div>
+
+    <!-- Offline Indicator -->
+    <div id="offlineIndicator" class="offline-indicator hidden">
+        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 2.829a4.978 4.978 0 01-1.414-2.83m-1.414 5.658a9 9 0 01-2.167-9.238m7.824 2.167a1 1 0 111.414 1.414m-1.414-1.414L3 3m8.293 8.293l1.414 1.414"/>
+        </svg>
+        <span>You're offline - Working in offline mode</span>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/public/js/main.js"></script>
+</body>
+</html>

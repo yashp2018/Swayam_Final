@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Swayam</title>
+    <link rel="stylesheet" href="public/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, #927397, #D6809C);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #927397;
+            margin-bottom: 0.5rem;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .action-btn {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-decoration: none;
+            color: #374151;
+            transition: transform 0.3s ease;
+            text-align: center;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .my-blogs {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .blog-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .blog-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+        }
+
+        .status-approved {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+
+        .status-rejected {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-symbol">स्व</span>
+                <span class="logo-text">Swayam</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="blogs.html">Blogs</a>
+                <a href="#" class="active">Dashboard</a>
+                <a href="#" onclick="logout()">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1 style="color: #927397; font-family: 'Playfair Display', serif;">Welcome to Your Dashboard</h1>
+            <p style="color: #6b7280;">Manage your spiritual journey and content</p>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-scroll"></i>
+                </div>
+                <div class="stat-number" id="totalBlogs">0</div>
+                <div class="stat-label">Total Blogs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-number" id="pendingBlogs">0</div>
+                <div class="stat-label">Pending Review</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-check"></i>
+                </div>
+                <div class="stat-number" id="approvedBlogs">0</div>
+                <div class="stat-label">Published</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <div class="stat-number" id="totalViews">0</div>
+                <div class="stat-label">Total Views</div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <a href="create-blog.html" class="action-btn">
+                <i class="fas fa-plus" style="color: #927397; font-size: 2rem; margin-bottom: 1rem;"></i>
+                <h3>Create New Blog</h3>
+                <p>Share your spiritual journey</p>
+            </a>
+            <a href="my-blogs.html" class="action-btn">
+                <i class="fas fa-list" style="color: #D6809C; font-size: 2rem; margin-bottom: 1rem;"></i>
+                <h3>My Blogs</h3>
+                <p>Manage your content</p>
+            </a>
+            <a href="profile.html" class="action-btn">
+                <i class="fas fa-user" style="color: #E7CBAE; font-size: 2rem; margin-bottom: 1rem;"></i>
+                <h3>Profile</h3>
+                <p>Update your information</p>
+            </a>
+        </div>
+
+        <!-- Recent Blogs -->
+        <div class="my-blogs">
+            <h2 style="color: #927397; margin-bottom: 1.5rem;">Recent Blogs</h2>
+            <div id="recentBlogs">
+                <!-- Blogs will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        if (!localStorage.getItem('swayamToken')) {
+            window.location.href = 'login.html';
+        }
+
+        // Load dashboard data
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardData();
+        });
+
+        async function loadDashboardData() {
+            try {
+                const response = await fetch('api/user/dashboard-stats.php');
+                const data = await response.json();
+                
+                if (data.success) {
+                    updateStats(data.stats);
+                    displayRecentBlogs(data.recent_blogs);
+                }
+            } catch (error) {
+                console.error('Dashboard data error:', error);
+            }
+        }
+
+        function updateStats(stats) {
+            document.getElementById('totalBlogs').textContent = stats.total_blogs || 0;
+            document.getElementById('pendingBlogs').textContent = stats.pending_blogs || 0;
+            document.getElementById('approvedBlogs').textContent = stats.approved_blogs || 0;
+            document.getElementById('totalViews').textContent = stats.total_views || 0;
+        }
+
+        function displayRecentBlogs(blogs) {
+            const container = document.getElementById('recentBlogs');
+            
+            if (!blogs || blogs.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #6b7280;">No blogs yet. <a href="create-blog.html">Create your first blog!</a></p>';
+                return;
+            }
+
+            container.innerHTML = blogs.map(blog => `
+                <div class="blog-item">
+                    <div>
+                        <h4>${blog.title}</h4>
+                        <p style="color: #6b7280; font-size: 0.875rem;">${blog.category} • ${blog.language} • ${blog.created_at}</p>
+                    </div>
+                    <span class="blog-status status-${blog.status}">${blog.status}</span>
+                </div>
+            `).join('');
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('swayamToken');
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html>

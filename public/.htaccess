@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# Prevent access to sensitive files
+RewriteRule ^(app|config|database|storage) - [F,L]
+
+# Redirect all requests to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . index.php [L]

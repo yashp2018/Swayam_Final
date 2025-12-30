@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masters & Experts - Swayam Admin</title>
+    <link rel="stylesheet" href="../public/css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .masters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .master-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .master-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .master-header {
+            background: linear-gradient(135deg, var(--color-lavender), var(--color-rose));
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .master-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+        }
+
+        .master-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .master-title {
+            opacity: 0.9;
+            font-size: 0.875rem;
+        }
+
+        .master-content {
+            padding: 1.5rem;
+        }
+
+        .master-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .skill-tag {
+            background: rgba(146, 115, 151, 0.1);
+            color: var(--color-lavender);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .master-bio {
+            color: #666;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .master-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--color-lavender);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        .master-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .category-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .category-btn.active {
+            background: var(--color-lavender);
+            color: white;
+            border-color: var(--color-lavender);
+        }
+
+        .verification-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--color-success);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+        }
+
+        .master-card {
+            position: relative;
+        }
+
+        .add-master-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--color-lavender);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(146, 115, 151, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .add-master-btn:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">🕉️ स्वयम्</div>
+                <div class="logo-subtitle">Masters & Experts</div>
+            </div>
+            
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="blog-management.html" class="nav-link">
+                        <i class="fas fa-scroll"></i>
+                        <span>Blog Management</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Masters & Experts</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="retreats.html" class="nav-link">
+                        <i class="fas fa-mountain"></i>
+                        <span>Retreat Management</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="header">
+                <div>
+                    <h1 class="page-title">Masters & Experts</h1>
+                    <p class="page-subtitle">Manage spiritual teachers, artists, and wisdom sharers</p>
+                </div>
+            </div>
+
+            <!-- Category Filters -->
+            <div class="category-filters">
+                <button class="category-btn active" data-category="all">All Masters</button>
+                <button class="category-btn" data-category="meditation">🧘 Meditation</button>
+                <button class="category-btn" data-category="yoga">🕉️ Yoga</button>
+                <button class="category-btn" data-category="music">🎵 Music</button>
+                <button class="category-btn" data-category="philosophy">📚 Philosophy</button>
+                <button class="category-btn" data-category="art">🎨 Arts</button>
+                <button class="category-btn" data-category="healing">💚 Healing</button>
+            </div>
+
+            <!-- Masters Grid -->
+            <div class="masters-grid" id="mastersGrid">
+                <!-- Meditation Master -->
+                <div class="master-card" data-category="meditation">
+                    <div class="verification-badge">
+                        <i class="fas fa-check"></i> Verified
+                    </div>
+                    <div class="master-header">
+                        <div class="master-avatar">🧘‍♂️</div>
+                        <div class="master-name">आचार्य विनोद शर्मा</div>
+                        <div class="master-title">Meditation Master</div>
+                    </div>
+                    <div class="master-content">
+                        <div class="master-skills">
+                            <span class="skill-tag">Vipassana</span>
+                            <span class="skill-tag">Mindfulness</span>
+                            <span class="skill-tag">Pranayama</span>
+                        </div>
+                        <div class="master-bio">
+                            25+ years of meditation practice. Specializes in Vipassana and mindfulness techniques for modern life.
+                        </div>
+                        <div class="master-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">1,247</div>
+                                <div class="stat-label">Students</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">89</div>
+                                <div class="stat-label">Sessions</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">4.9</div>
+                                <div class="stat-label">Rating</div>
+                            </div>
+                        </div>
+                        <div class="master-actions">
+                            <button class="btn btn-secondary btn-sm">
+                                <i class="fas fa-eye"></i> View Profile
+                            </button>
+                            <button class="btn btn-primary btn-sm">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Music Master -->
+                <div class="master-card" data-category="music">
+                    <div class="verification-badge">
+                        <i class="fas fa-check"></i> Verified
+                    </div>
+                    <div class="master-header">
+                        <div class="master-avatar">🎵</div>
+                        <div class="master-name">पंडित रवि कुमार</div>
+                        <div class="master-title">Classical Music Guru</div>
+                    </div>
+                    <div class="master-content">
+                        <div class="master-skills">
+                            <span class="skill-tag">Sitar</span>
+                            <span class="skill-tag">Bhajans</span>
+                            <span class="skill-tag">Ragas</span>
+                        </div>
+                        <div class="master-bio">
+                            Renowned sitar player and spiritual music teacher. Connects souls through divine melodies.
+                        </div>
+                        <div class="master-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">856</div>
+                                <div class="stat-label">Students</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">124</div>
+                                <div class="stat-label">Concerts</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">4.8</div>
+                                <div class="stat-label">Rating</div>
+                            </div>
+                        </div>
+                        <div class="master-actions">
+                            <button class="btn btn-secondary btn-sm">
+                                <i class="fas fa-eye"></i> View Profile
+                            </button>
+                            <button class="btn btn-primary btn-sm">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Yoga Master -->
+                <div class="master-card" data-category="yoga">
+                    <div class="verification-badge">
+                        <i class="fas fa-check"></i> Verified
+                    </div>
+                    <div class="master-header">
+                        <div class="master-avatar">🕉️</div>
+                        <div class="master-name">योगाचार्य प्रिया देवी</div>
+                        <div class="master-title">Yoga & Wellness Expert</div>
+                    </div>
+                    <div class="master-content">
+                        <div class="master-skills">
+                            <span class="skill-tag">Hatha Yoga</span>
+                            <span class="skill-tag">Ayurveda</span>
+                            <span class="skill-tag">Chakra Healing</span>
+                        </div>
+                        <div class="master-bio">
+                            Certified yoga instructor with expertise in traditional Hatha yoga and Ayurvedic healing.
+                        </div>
+                        <div class="master-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">2,134</div>
+                                <div class="stat-label">Students</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">156</div>
+                                <div class="stat-label">Classes</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">4.9</div>
+                                <div class="stat-label">Rating</div>
+                            </div>
+                        </div>
+                        <div class="master-actions">
+                            <button class="btn btn-secondary btn-sm">
+                                <i class="fas fa-eye"></i> View Profile
+                            </button>
+                            <button class="btn btn-primary btn-sm">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Philosophy Master -->
+                <div class="master-card" data-category="philosophy">
+                    <div class="verification-badge">
+                        <i class="fas fa-clock"></i> Pending
+                    </div>
+                    <div class="master-header">
+                        <div class="master-avatar">📚</div>
+                        <div class="master-name">डॉ. अनिल गुप्ता</div>
+                        <div class="master-title">Vedic Philosophy Scholar</div>
+                    </div>
+                    <div class="master-content">
+                        <div class="master-skills">
+                            <span class="skill-tag">Vedanta</span>
+                            <span class="skill-tag">Upanishads</span>
+                            <span class="skill-tag">Sanskrit</span>
+                        </div>
+                        <div class="master-bio">
+                            PhD in Vedic Philosophy. Simplifies ancient wisdom for modern seekers.
+                        </div>
+                        <div class="master-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">0</div>
+                                <div class="stat-label">Students</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">0</div>
+                                <div class="stat-label">Sessions</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">-</div>
+                                <div class="stat-label">Rating</div>
+                            </div>
+                        </div>
+                        <div class="master-actions">
+                            <button class="btn btn-success btn-sm">
+                                <i class="fas fa-check"></i> Approve
+                            </button>
+                            <button class="btn btn-error btn-sm">
+                                <i class="fas fa-times"></i> Reject
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Art Master -->
+                <div class="master-card" data-category="art">
+                    <div class="verification-badge">
+                        <i class="fas fa-check"></i> Verified
+                    </div>
+                    <div class="master-header">
+                        <div class="master-avatar">🎨</div>
+                        <div class="master-name">कलाकार सुनीता पाटिल</div>
+                        <div class="master-title">Spiritual Art Therapist</div>
+                    </div>
+                    <div class="master-content">
+                        <div class="master-skills">
+                            <span class="skill-tag">Mandala Art</span>
+                            <span class="skill-tag">Art Therapy</span>
+                            <span class="skill-tag">Meditation Art</span>
+                        </div>
+                        <div class="master-bio">
+                            Uses art as a medium for spiritual healing and self-expression. Mandala specialist.
+                        </div>
+                        <div class="master-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">567</div>
+                                <div class="stat-label">Students</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">78</div>
+                                <div class="stat-label">Workshops</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">4.7</div>
+                                <div class="stat-label">Rating</div>
+                            </div>
+                        </div>
+                        <div class="master-actions">
+                            <button class="btn btn-secondary btn-sm">
+                                <i class="fas fa-eye"></i> View Profile
+                            </button>
+                            <button class="btn btn-primary btn-sm">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Healing Master -->
+                <div class="master-card" data-category="healing">
+                    <div class="verification-badge">
+                        <i class="fas fa-check"></i> Verified
+                    </div>
+                    <div class="master-header">
+                        <div class="master-avatar">💚</div>
+                        <div class="master-name">वैद्य राजेश शर्मा</div>
+                        <div class="master-title">Ayurvedic Healer</div>
+                    </div>
+                    <div class="master-content">
+                        <div class="master-skills">
+                            <span class="skill-tag">Ayurveda</span>
+                            <span class="skill-tag">Panchakarma</span>
+                            <span class="skill-tag">Herbal Medicine</span>
+                        </div>
+                        <div class="master-bio">
+                            Traditional Ayurvedic practitioner with 30+ years experience in holistic healing.
+                        </div>
+                        <div class="master-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">3,421</div>
+                                <div class="stat-label">Patients</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">245</div>
+                                <div class="stat-label">Treatments</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">4.9</div>
+                                <div class="stat-label">Rating</div>
+                            </div>
+                        </div>
+                        <div class="master-actions">
+                            <button class="btn btn-secondary btn-sm">
+                                <i class="fas fa-eye"></i> View Profile
+                            </button>
+                            <button class="btn btn-primary btn-sm">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Master Button -->
+            <button class="add-master-btn" onclick="addNewMaster()">
+                <i class="fas fa-plus"></i>
+            </button>
+        </main>
+    </div>
+
+    <script>
+        // Category filtering
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const category = btn.getAttribute('data-category');
+                filterMasters(category);
+            });
+        });
+
+        function filterMasters(category) {
+            const cards = document.querySelectorAll('.master-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function addNewMaster() {
+            alert('Opening master registration form...');
+            // Implement add new master functionality
+        }
+
+        // Master actions
+        function approveMaster(id) {
+            if (confirm('Are you sure you want to approve this master?')) {
+                alert(`Master ${id} approved successfully!`);
+                // Update verification badge
+            }
+        }
+
+        function rejectMaster(id) {
+            const reason = prompt('Please provide a reason for rejection:');
+            if (reason) {
+                alert(`Master ${id} rejected. Reason: ${reason}`);
+            }
+        }
+    </script>
+</body>
+</html>

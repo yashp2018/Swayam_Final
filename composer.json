@@ -1,0 +1,13 @@
+{
+    "name": "swayam/swayam",
+    "description": "Spiritual self-growth platform",
+    "type": "project",
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}

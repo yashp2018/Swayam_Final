@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Swayam</title>
+    <link rel="stylesheet" href="../public/css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+            background: #FAF5EF;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(135deg, #927397 0%, #D6809C 100%);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-menu {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            margin: 0.25rem 1rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-link i {
+            width: 20px;
+            margin-right: 1rem;
+        }
+
+        .badge {
+            background: #ef4444;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-left: auto;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+        }
+
+        .header {
+            background: white;
+            padding: 1.5rem 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #927397;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #927397, #D6809C);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #927397;
+            margin-bottom: 0.5rem;
+        }
+
+        .pending-blogs {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .blog-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .blog-info h4 {
+            color: #927397;
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-meta {
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        .blog-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-approve {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-reject {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-view {
+            background: #6b7280;
+            color: white;
+        }
+
+        .activity-feed {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .close {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .blog-preview {
+            line-height: 1.6;
+        }
+
+        .blog-preview h1 {
+            color: #927397;
+            margin-bottom: 1rem;
+        }
+
+        .blog-preview img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .approval-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .rejection-reason {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-top: 1rem;
+            resize: vertical;
+            min-height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">🕉️ स्वयम्</div>
+                <div class="logo-subtitle">Admin Panel</div>
+            </div>
+            
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="#" class="nav-link active" data-section="dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link" data-section="pending-blogs">
+                        <i class="fas fa-clock"></i>
+                        <span>Pending Blogs</span>
+                        <span class="badge" id="pendingCount">8</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link" data-section="user-activity">
+                        <i class="fas fa-users"></i>
+                        <span>User Activity</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link" data-section="content-management">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Content Management</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link" data-section="masters">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Masters & Experts</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link" data-section="analytics">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Analytics</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <div id="dashboard" class="section active">
+                <div class="header">
+                    <div>
+                        <h1 class="page-title">Admin Dashboard</h1>
+                        <p class="page-subtitle">Monitor and manage Swayam platform</p>
+                    </div>
+                    <div>
+                        <button class="btn btn-approve">
+                            <i class="fas fa-plus"></i> Quick Actions
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                        </div>
+                        <div class="stat-number" id="pendingBlogs">8</div>
+                        <div class="stat-label">Pending Blog Approvals</div>
+                        <div class="stat-change" style="color: #ef4444;">Requires immediate attention</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                                <i class="fas fa-check"></i>
+                            </div>
+                        </div>
+                        <div class="stat-number" id="approvedBlogs">156</div>
+                        <div class="stat-label">Approved Blogs</div>
+                        <div class="stat-change" style="color: #10b981;">+12 this week</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="stat-number" id="activeUsers">1,247</div>
+                        <div class="stat-label">Active Users</div>
+                        <div class="stat-change" style="color: #3b82f6;">+23 today</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                        </div>
+                        <div class="stat-number" id="masters">24</div>
+                        <div class="stat-label">Verified Masters</div>
+                        <div class="stat-change" style="color: #f59e0b;">3 pending verification</div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="activity-feed">
+                    <h3 style="margin-bottom: 1rem; color: #927397;">Recent Activity</h3>
+                    <div class="activity-item">
+                        <div class="activity-icon" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <div>
+                            <strong>New blog submitted</strong> by राज पाटिल
+                            <div style="font-size: 0.875rem; color: #666;">शेगांव मंदिर की आध्यात्मिक यात्रा - 2 minutes ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div>
+                            <strong>Blog approved</strong> - Daily Meditation Practice
+                            <div style="font-size: 0.875rem; color: #666;">by Priya Sharma - 1 hour ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div>
+                            <strong>New user registered</strong> - अनिल देशमुख
+                            <div style="font-size: 0.875rem; color: #666;">3 hours ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending Blogs Section -->
+            <div id="pending-blogs" class="section" style="display: none;">
+                <div class="header">
+                    <div>
+                        <h1 class="page-title">Pending Blog Approvals</h1>
+                        <p class="page-subtitle">Review and approve user-submitted content</p>
+                    </div>
+                </div>
+
+                <div class="pending-blogs">
+                    <div class="blog-item">
+                        <div class="blog-info">
+                            <h4>शेगांव मंदिर की आध्यात्मिक यात्रा</h4>
+                            <div class="blog-meta">
+                                By राज पाटिल • Hindi • Spiritual Journey • 2 minutes ago
+                            </div>
+                        </div>
+                        <div class="blog-actions">
+                            <button class="btn btn-view" onclick="viewBlog(1)">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            <button class="btn btn-approve" onclick="approveBlog(1)">
+                                <i class="fas fa-check"></i> Approve
+                            </button>
+                            <button class="btn btn-reject" onclick="rejectBlog(1)">
+                                <i class="fas fa-times"></i> Reject
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="blog-item">
+                        <div class="blog-info">
+                            <h4>योगाचे आध्यात्मिक फायदे</h4>
+                            <div class="blog-meta">
+                                By अनिल देशमुख • Marathi • Yoga & Wellness • 3 hours ago
+                            </div>
+                        </div>
+                        <div class="blog-actions">
+                            <button class="btn btn-view" onclick="viewBlog(2)">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            <button class="btn btn-approve" onclick="approveBlog(2)">
+                                <i class="fas fa-check"></i> Approve
+                            </button>
+                            <button class="btn btn-reject" onclick="rejectBlog(2)">
+                                <i class="fas fa-times"></i> Reject
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="blog-item">
+                        <div class="blog-info">
+                            <h4>Classical Music as Spiritual Practice</h4>
+                            <div class="blog-meta">
+                                By Ravi Kumar • English • Arts & Culture • 5 hours ago
+                            </div>
+                        </div>
+                        <div class="blog-actions">
+                            <button class="btn btn-view" onclick="viewBlog(3)">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            <button class="btn btn-approve" onclick="approveBlog(3)">
+                                <i class="fas fa-check"></i> Approve
+                            </button>
+                            <button class="btn btn-reject" onclick="rejectBlog(3)">
+                                <i class="fas fa-times"></i> Reject
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Activity Section -->
+            <div id="user-activity" class="section" style="display: none;">
+                <div class="header">
+                    <div>
+                        <h1 class="page-title">User Activity Tracking</h1>
+                        <p class="page-subtitle">Monitor user engagement and content creation</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4 style="color: #927397; margin-bottom: 1rem;">Most Active Users</h4>
+                        <div style="space-y: 0.5rem;">
+                            <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
+                                <span>राज पाटिल</span>
+                                <span style="color: #10b981;">12 blogs</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
+                                <span>Priya Sharma</span>
+                                <span style="color: #10b981;">8 blogs</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
+                                <span>अनिल देशमुख</span>
+                                <span style="color: #10b981;">6 blogs</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <h4 style="color: #927397; margin-bottom: 1rem;">Content Categories</h4>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
+                                <span>Spiritual Journey</span>
+                                <span style="color: #3b82f6;">45%</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
+                                <span>Meditation</span>
+                                <span style="color: #3b82f6;">28%</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
+                                <span>Yoga & Wellness</span>
+                                <span style="color: #3b82f6;">18%</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
+                                <span>Arts & Culture</span>
+                                <span style="color: #3b82f6;">9%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Blog Preview Modal -->
+    <div id="blogModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Blog Preview</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div id="blogPreview" class="blog-preview">
+                <!-- Blog content will be loaded here -->
+            </div>
+            <div class="approval-actions">
+                <button class="btn btn-approve" onclick="approveBlogFromModal()">
+                    <i class="fas fa-check"></i> Approve Blog
+                </button>
+                <button class="btn btn-reject" onclick="showRejectForm()">
+                    <i class="fas fa-times"></i> Reject Blog
+                </button>
+            </div>
+            <div id="rejectForm" style="display: none;">
+                <textarea class="rejection-reason" placeholder="Please provide a reason for rejection..."></textarea>
+                <div style="margin-top: 1rem;">
+                    <button class="btn btn-reject" onclick="rejectBlogWithReason()">
+                        <i class="fas fa-times"></i> Confirm Rejection
+                    </button>
+                    <button class="btn btn-view" onclick="hideRejectForm()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentBlogId = null;
+
+        // Navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remove active class from all links and sections
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+                
+                // Add active class to clicked link
+                link.classList.add('active');
+                
+                // Show corresponding section
+                const sectionId = link.getAttribute('data-section');
+                document.getElementById(sectionId).style.display = 'block';
+            });
+        });
+
+        // Blog actions
+        function viewBlog(id) {
+            currentBlogId = id;
+            
+            // Sample blog content based on ID
+            const blogContent = {
+                1: {
+                    title: "शेगांव मंदिर की आध्यात्मिक यात्रा",
+                    content: `
+                        <h1>शेगांव मंदिर की आध्यात्मिक यात्रा</h1>
+                        <p><strong>लेखक:</strong> राज पाटिल</p>
+                        <p><strong>भाषा:</strong> हिंदी</p>
+                        <p><strong>श्रेणी:</strong> आध्यात्मिक यात्रा</p>
+                        
+                        <p>गजानन महाराज के दर्शन के लिए शेगांव की मेरी यात्रा एक अविस्मरणीय अनुभव था। यह पवित्र स्थान महाराष्ट्र के बुलढाणा जिले में स्थित है और यहाँ की शांति और आध्यात्मिक ऊर्जा अद्भुत है।</p>
+                        
+                        <h3>मंदिर का महत्व</h3>
+                        <p>श्री गजानन महाराज शेगांव के संत थे जिन्होंने 19वीं सदी में यहाँ निवास किया था। उनकी समाधि यहीं स्थित है और भक्तों का मानना है कि यहाँ आने से मन को शांति मिलती है।</p>
+                        
+                        <h3>मेरा अनुभव</h3>
+                        <p>सुबह 4 बजे मंदिर पहुँचकर आरती में सम्मिलित होना एक दिव्य अनुभव था। मंदिर की घंटियों की आवाज़ और भक्तों के मंत्रोच्चार से वातावरण में एक अलग ही पवित्रता थी।</p>
+                        
+                        <p>यह यात्रा मेरे लिए केवल एक धार्मिक यात्रा नहीं बल्कि आत्म-खोज की यात्रा थी। मैं सभी को सुझाव देता हूँ कि जीवन में कम से कम एक बार शेगांव अवश्य जाएं।</p>
+                    `
+                },
+                2: {
+                    title: "योगाचे आध्यात्मिक फायदे",
+                    content: `
+                        <h1>योगाचे आध्यात्मिक फायदे</h1>
+                        <p><strong>लेखक:</strong> अनिल देशमुख</p>
+                        <p><strong>भाषा:</strong> मराठी</p>
+                        <p><strong>श्रेणी:</strong> योग आणि आरोग्य</p>
+                        
+                        <p>योगाचा सराव केल्याने केवळ शारीरिक फायदे होत नाहीत तर आध्यात्मिक उन्नती देखील होते. माझ्या 10 वर्षांच्या योगाच्या प्रवासात मला अनेक अनुभव आले आहेत.</p>
+                        
+                        <h3>मानसिक शांती</h3>
+                        <p>नियमित योगाभ्यासामुळे मनाला शांती मिळते आणि तणाव कमी होतो. प्राणायामाच्या सरावाने मन एकाग्र होते.</p>
+                        
+                        <h3>आत्मज्ञान</h3>
+                        <p>योगाच्या माध्यमातून आपण स्वतःला ओळखू शकतो. ध्यानाच्या सरावाने अंतर्मुखता वाढते आणि आत्म-साक्षात्कार होतो.</p>
+                    `
+                }
+            };
+            
+            const blog = blogContent[id] || {
+                title: "Blog Preview",
+                content: "<p>Blog content loading...</p>"
+            };
+            
+            document.getElementById('modalTitle').textContent = blog.title;
+            document.getElementById('blogPreview').innerHTML = blog.content;
+            document.getElementById('blogModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('blogModal').style.display = 'none';
+            document.getElementById('rejectForm').style.display = 'none';
+        }
+
+        function approveBlog(id) {
+            if (confirm('Are you sure you want to approve this blog?')) {
+                alert(`Blog ${id} approved successfully!`);
+                updatePendingCount(-1);
+                // Remove blog item from pending list
+                event.target.closest('.blog-item').remove();
+            }
+        }
+
+        function approveBlogFromModal() {
+            if (currentBlogId && confirm('Are you sure you want to approve this blog?')) {
+                alert(`Blog ${currentBlogId} approved successfully!`);
+                updatePendingCount(-1);
+                closeModal();
+                // Remove from pending list if viewing from pending section
+                const blogItem = document.querySelector(`[onclick="viewBlog(${currentBlogId})"]`).closest('.blog-item');
+                if (blogItem) blogItem.remove();
+            }
+        }
+
+        function rejectBlog(id) {
+            currentBlogId = id;
+            const reason = prompt('Please provide a reason for rejection:');
+            if (reason) {
+                alert(`Blog ${id} rejected. Reason: ${reason}`);
+                updatePendingCount(-1);
+                event.target.closest('.blog-item').remove();
+            }
+        }
+
+        function showRejectForm() {
+            document.getElementById('rejectForm').style.display = 'block';
+        }
+
+        function hideRejectForm() {
+            document.getElementById('rejectForm').style.display = 'none';
+        }
+
+        function rejectBlogWithReason() {
+            const reason = document.querySelector('.rejection-reason').value;
+            if (reason.trim()) {
+                alert(`Blog ${currentBlogId} rejected. Reason: ${reason}`);
+                updatePendingCount(-1);
+                closeModal();
+                // Remove from pending list
+                const blogItem = document.querySelector(`[onclick="viewBlog(${currentBlogId})"]`).closest('.blog-item');
+                if (blogItem) blogItem.remove();
+            } else {
+                alert('Please provide a reason for rejection.');
+            }
+        }
+
+        function updatePendingCount(change) {
+            const countElement = document.getElementById('pendingCount');
+            const currentCount = parseInt(countElement.textContent);
+            const newCount = Math.max(0, currentCount + change);
+            countElement.textContent = newCount;
+            
+            // Update dashboard stat
+            const dashboardCount = document.getElementById('pendingBlogs');
+            if (dashboardCount) {
+                dashboardCount.textContent = newCount;
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('blogModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            // Setup admin session first
+            fetch('../api/admin/setup-session.php')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Admin session setup:', data);
+                    // Show dashboard by default
+                    document.getElementById('dashboard').style.display = 'block';
+                    // Load dashboard data
+                    loadDashboardData();
+                })
+                .catch(error => {
+                    console.error('Session setup error:', error);
+                    document.getElementById('dashboard').style.display = 'block';
+                });
+        });
+
+        // Load dashboard data
+        function loadDashboardData() {
+            fetch('../api/admin/dashboard-stats.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        updateDashboardStats(data.data);
+                    }
+                })
+                .catch(error => console.error('Dashboard data error:', error));
+        }
+
+        function updateDashboardStats(data) {
+            if (data.stats) {
+                document.getElementById('pendingBlogs').textContent = data.stats.pending_blogs || 8;
+                document.getElementById('approvedBlogs').textContent = data.stats.approved_blogs || 156;
+                document.getElementById('activeUsers').textContent = data.stats.active_users || 1247;
+                document.getElementById('masters').textContent = data.stats.verified_masters || 24;
+                document.getElementById('pendingCount').textContent = data.stats.pending_blogs || 8;
+            }
+        }
+    </script>
+</body>
+</html>
