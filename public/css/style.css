@@ -2478,7 +2478,7 @@ nav.nav-scrolled {
 }
 .retreat-hero {
     position: relative;
-    background-image: url("./public/images/Retreats.jpg"); /* your image path */
+    background-image: url("./images/Retreats.jpg"); /* your image path */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
