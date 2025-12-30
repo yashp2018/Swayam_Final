@@ -1,0 +1,102 @@
+{
+  "name": "Swayam - Spiritual Journey Platform",
+  "short_name": "Swayam",
+  "description": "A comprehensive platform for spiritual growth, meditation, yoga, and meaningful living",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF5EF",
+  "theme_color": "#927397",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["lifestyle", "education", "health"],
+  "icons": [
+    {
+      "src": "public/images/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "public/images/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "public/images/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "public/images/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "public/images/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "public/images/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "public/images/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "public/images/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Create Blog",
+      "short_name": "Create",
+      "description": "Share your spiritual journey",
+      "url": "/create-blog.html",
+      "icons": [{ "src": "public/images/icons/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "View your spiritual progress",
+      "url": "/dashboard.html",
+      "icons": [{ "src": "public/images/icons/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Blogs",
+      "short_name": "Blogs",
+      "description": "Read spiritual wisdom",
+      "url": "/blogs.html",
+      "icons": [{ "src": "public/images/icons/icon-96x96.png", "sizes": "96x96" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "public/images/screenshots/homepage.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "platform": "wide",
+      "label": "Swayam Homepage"
+    },
+    {
+      "src": "public/images/screenshots/mobile-view.png",
+      "sizes": "375x667",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Mobile Experience"
+    }
+  ]
+}
